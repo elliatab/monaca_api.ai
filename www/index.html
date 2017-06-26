@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html ng-app="myApp">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="components/loader.js"></script>
+  <script src="lib/angular/angular.min.js"></script>
+  <script src="lib/onsenui/js/onsenui.min.js"></script>
+  <script src="lib/onsenui/js/angular-onsenui.min.js"></script>
+  <script type="text/javascript" src="js/app.js"></script>
+
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-controller="HomeCtrl as home">
+
+<ons-tabbar var="myTabbar">
+    <ons-tab label="Text" page="text.html" active><ons-icon icon="ion-android-textsms" size="30px"></ons-icon></ons-tab>
+    <ons-tab label="Voice" page="voice.html"><ons-icon icon="ion-mic-a" size="30px"></ons-icon></ons-tab>
+    <ons-tab label="Settings" page="lang.html"><ons-icon icon="fa-language" size="30px"></ons-icon></ons-tab>
+</ons-tabbar>
+
+<ons-template id="text.html">
+    <ons-page>
+        <ons-toolbar>
+            <div class="center">Monaca x API.AI</div>
+        </ons-toolbar>
+
+        <div class="page">
+            <h4>Text Conversation ({{current_lang}})</h4>
+            <ons-list>
+                <ons-list-item ng-repeat="rowContent in textRows" modifier="nodivider">
+                    <ons-row class="question"><span>{{rowContent.question}}</span></ons-row>
+                    <ons-row class="answer"><span>{{rowContent.answer}}</span></ons-row>
+                </ons-list-item>
+            </ons-list>
+        </div>
+        <div class="stay_bottom">
+            <ons-input type="text" ng-model="question" id="text-question" placeholder="Type your question here..."></ons-input>
+            <ons-button modifier="quiet" class="float-right" ng-click="sendText(question)"><ons-icon icon="ion-android-send" size="20px"></ons-icon></ons-button>
+        </div>    
+    </div>    
+    </ons-page>
+</ons-template>
+
+<ons-template id="voice.html">
+    <ons-page>
+        <ons-toolbar>
+            <div class="center">Monaca x API.AI</div>
+        </ons-toolbar>
+
+        <div class="page">
+            <h4>Voice Converation ({{current_lang}})</h4>
+            <ons-list>
+                <ons-list-item ng-repeat="rowContent in voiceRows" modifier="nodivider">
+                    <ons-row class="question"><span>{{rowContent.question}}</span></ons-row>
+                    <ons-row class="answer"><span>{{rowContent.answer}}</span></ons-row>
+                </ons-list-item>
+            </ons-list>
+            
+            <div class="stay_bottom voice">
+                <ons-button ng-click="sendVoice()">{{recordButton}}</ons-button>
+                <!--<ons-button ng-click="stop()">Stop Recording</ons-button>-->
+            </div>    
+        </div>
+    </ons-page>
+</ons-template>
+
+<ons-template id="lang.html">
+    <ons-page>
+        <ons-toolbar>
+            <div class="center">Monaca x API.AI</div>
+        </ons-toolbar>
+
+        <div class="page">
+            <h4>Language Configuration</h4>
+            <p style="text-align: left">Selected Language: <b>{{current_lang}}</b></p>
+            
+            <ons-list style="text-align: left">
+                <ons-list-header>Currently available languages</ons-list-header>
+                <ons-list-item ng-repeat="language in languages" ng-click="updateLanguage($index)" tappable>
+                    {{language.title}}
+                </ons-list-item>
+            </ons-list>
+        </div>
+    </ons-page>
+</ons-template>
+</body>
+</html>
